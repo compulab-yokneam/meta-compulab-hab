@@ -27,8 +27,7 @@ do_configure () {
 }
 
 do_compile () {
-    cd ${S}
-    oe_runmake build
+    :
 }
 
 do_install () {
@@ -39,7 +38,8 @@ do_install () {
         install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/${d}/${target} ${D}/boot/signed/${d}/${target}
         ln -sf signed/${d}/${target} ${D}/boot/${target}-signed
     done
-    cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f ${D}/boot/signed/
+    install -d ${D}/boot/signed/f
+    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${D}/boot/signed/f/fuse.out
 }
 
 do_copy_signed() {
@@ -50,21 +50,18 @@ do_copy_signed() {
 }
 
 do_sign () {
-    cd ${DEPLOY_DIR_IMAGE}/cst-tools/hab
-    ../bin/csf.u
-    ../bin/csf.k
-    ../bin/csf.f
+    cd ${DEPLOY_DIR_IMAGE}/cst-tools
+    oe_runmake kernel imx-boot fuse
 }
 
 do_deploy () {
     install -d ${DEPLOY_DIR_IMAGE}/cst-tools
-    install -d ${DEPLOY_DIR_IMAGE}/cst-tools/linux64/bin
-    for d in crts bin ca;do
-    cp -a ${S}/${d} ${DEPLOY_DIR_IMAGE}/cst-tools/
+    for d in makefile crts keys tools ca linux64;do
+    if [ ! -e ${DEPLOY_DIR_IMAGE}/cst-tools/${d} ];then
+        cp -a ${S}/${d} ${DEPLOY_DIR_IMAGE}/cst-tools/
+    fi
     done
-    cp -a ${S}/keys/hab4_pki_tree.sh ${DEPLOY_DIR_IMAGE}/cst-tools/crts/
-    ln -fs crts ${DEPLOY_DIR_IMAGE}/cst-tools/keys
-    cp -a ${S}/linux64/bin/cst ${DEPLOY_DIR_IMAGE}/cst-tools/linux64/bin/
+    cp -a ${S}/keys/hab4_pki_tree.sh ${DEPLOY_DIR_IMAGE}/cst-tools/tools
 
     install -d ${DEPLOY_DIR_IMAGE}/cst-tools/hab
     cp ${WORKDIR}/csf_*.in ${DEPLOY_DIR_IMAGE}/cst-tools/hab
