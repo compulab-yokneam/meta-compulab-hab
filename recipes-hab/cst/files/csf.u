@@ -14,7 +14,7 @@ eom
 exit 1
 fi
 
-ifile=$(readlink flash_evk)
+ifile=flash.bin
 ofile=${ifile}
 
 eval $(awk  -F":" '(/hab block/)&&(gsub(/ /,"_",$1))&&($0=$1"=\""$2"\"")' ${SOC}/flash_evk.log)

@@ -13,7 +13,7 @@ SRC_URI = "file://cst-3.3.0.tgz \
     file://makefile \
 "
 
-DEPENDS = "openssl-native imx-boot linux-imx"
+DEPENDS = "openssl-native"
 
 S = "${WORKDIR}/release"
 
@@ -31,28 +31,12 @@ do_compile () {
 }
 
 do_install () {
-    install -d ${D}/boot/signed/
-    for d in u k;do
-        install -d ${D}/boot/signed/${d}
-        target=$(readlink ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/${d}/signed)
-        install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/${d}/${target} ${D}/boot/signed/${d}/${target}
-        ln -sf signed/${d}/${target} ${D}/boot/${target}-signed
-    done
-    install -d ${D}/boot/signed/f
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${D}/boot/signed/f/fuse.out
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/hab_auth_img.cmd ${D}/boot/hab_auth_img.cmd
-}
-
-do_copy_signed() {
-    for d in u k;do
-        target=$(readlink ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/${d}/signed)
-        cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/${d}/signed ${DEPLOY_DIR_IMAGE}/${target}
-    done
+    :
 }
 
 do_sign () {
     cd ${DEPLOY_DIR_IMAGE}/cst-tools
-    oe_runmake kernel imx-boot fuse
+    oe_runmake fuse
 }
 
 do_deploy () {
@@ -68,15 +52,10 @@ do_deploy () {
     cp ${WORKDIR}/csf_*.in ${DEPLOY_DIR_IMAGE}/cst-tools/hab
 
     do_sign
-    do_copy_signed
 }
 
 addtask deploy before do_install after do_compile
 
-PROVIDES += "cst-tools"
-
-FILES_${PN} = " \
-    /boot/* \
-"
+PROVIDES += "cst-keys"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
