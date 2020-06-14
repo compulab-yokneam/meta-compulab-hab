@@ -31,6 +31,7 @@ genivt=${O}/genivt
 padsize=0x$(xxd -s 0x10 -g 0x4 -l 0x4 -e -u ${ifile} | awk '$0=$2')
 objcopy -I binary -O binary --pad-to ${padsize} --gap-fill=0x00 ${ifile} ${padfile}
 
+ivt_off=$(printf 0x%x ${padsize})
 ivt_ptr=$(printf 0x%x $((${kload}+${padsize})))
 csf_ptr=$(printf 0x%x $((${kload}+${padsize}+0x20)))
 
@@ -66,5 +67,11 @@ ${CST} --i ${o_csfaddfile} --o ${csffile}
 cat ${ivtfile} ${csffile} > ${O}/${ofile}
 
 ln -sf ${ofile} ${O}/signed
+
+cat << eof >> ${O}/hab_auth_img.cmd
+setenv ivt_off ${ivt_off}
+load mmc \${mmcdev} \${loadaddr} \${image}
+hab_auth_img \${loadaddr} \${filesize} \${ivt_off}
+eof
 
 # rm -rf ${ivtfile} ${ivtbin} ${padfile} ${csffile} ${csfaddfile} in_${csfaddfile} ${genivt}

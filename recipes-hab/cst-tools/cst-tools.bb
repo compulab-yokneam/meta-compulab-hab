@@ -40,6 +40,7 @@ do_install () {
     done
     install -d ${D}/boot/signed/f
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${D}/boot/signed/f/fuse.out
+    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/hab_auth_img.cmd ${D}/boot/hab_auth_img.cmd
 }
 
 do_copy_signed() {
