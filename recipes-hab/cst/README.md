@@ -84,7 +84,7 @@ cst-tools/
 │   │   └── srktool
 │   └── lib
 │       └── libfrontend.a
-├── makefile
+├── Makefile
 └── tools
     ├── csf.f
     ├── csf.k
