@@ -3,15 +3,12 @@ LIC_FILES_CHKSUM = ""
 
 SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https"
 
-# Modify these as desired
 PV = "1.0+git${SRCPV}"
 SRCREV = "9ff49cd22e91ec426390636df307a14c496e4004"
 
 DEPENDS = "openssl-native"
 
 S = "${WORKDIR}/git"
-
-# NOTE: no Makefile found, unable to determine what needs to be done
 
 do_configure () {
 	tar -C ${S} -xf ${S}/nxp/cst-3.3.0.tgz --strip-components=1
@@ -21,13 +18,10 @@ do_configure () {
 }
 
 do_compile () {
-	# Specify compilation commands here
-	#oe_runmake fuse
 	:
 }
 
 do_install () {
-	# Specify install commands here
 	:
 }
 

@@ -37,7 +37,7 @@ do_install () {
 
 addtask deploy before do_install after do_compile
 
-PROVIDES += "cst-tools"
+PROVIDES = "cst-tools"
 
 FILES_${PN} = " \
     /boot/* \
