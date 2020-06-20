@@ -1,7 +1,5 @@
-LICENSE = "Unknown"
-LIC_FILES_CHKSUM = "file://README;md5=80b3d8b4527bf06c08c3976863f9cc6d"
-
-SRC_URI = "file://README"
+LICENSE = "CLOSED"
+LIC_FILES_CHKSUM = ""
 
 DEPENDS = "imx-boot linux-imx"
 
