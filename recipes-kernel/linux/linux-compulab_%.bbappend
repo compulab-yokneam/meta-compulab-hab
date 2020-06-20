@@ -1,6 +1,13 @@
-do_install_append_cl-som-imx7 () {
+DEST = "${DEPLOY_DIR_IMAGE}/cst-tools/hab"
 
-	install -d ${DEPLOY_DIR_IMAGE}/cst-tools/hab
-	install -m 644 ${B}/arch/arm/boot/zImage ${DEPLOY_DIR_IMAGE}/cst-tools/hab/zImage
+do_compile_append () {
 
+    install -d ${DEST}
+    install -m 644 ${B}/arch/arm/boot/zImage ${DEST}/zImage
+
+    cd ${DEST}/..
+    oe_runmake kernel
 }
+
+DEPENDS += "cst-keys"
+COMPATIBLE_MACHINE = "cl-som-imx7"
