@@ -105,19 +105,19 @@ cd ${BUILDIR}/tmp/deploy/images/${MACHINE}/cst-tools
 * Kernel signing
 <pre>
 make kernel
-stat signed/k/Image
+stat hab/signed/k/Image
 </pre>
 
 * imx-boot signing
 <pre>
 make imx-boot
-stat signed/u/imx-boot-mcm-imx8m-mini-sd.bin-flash_evk
+stat hab/signed/u/imx-boot-mcm-imx8m-mini-sd.bin-flash_evk
 </pre>
 
 * fuse values generating
 <pre>
 make fuse
-stat signed/f/fuse.out
+stat hab/signed/f/fuse.out
 </pre>
 
 * Generate all targets `kernel`, `imx-boot`, `fuse` at the same time:
