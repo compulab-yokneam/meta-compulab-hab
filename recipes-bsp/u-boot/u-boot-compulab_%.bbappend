@@ -11,11 +11,6 @@ do_compile_append () {
     for target in u-boot-ivt.img u-boot-ivt.img.log SPL SPL.log;do
         cp ${B}/${target} ${DEST}/
     done
-
-    cd ${DEST}/..
-    oe_runmake u-boot
-    cp ${DEST}/signed/u/u-boot.imx ${B}/
 }
 
-DEPENDS += "cst-keys"
 COMPATIBLE_MACHINE = "cl-som-imx7"
