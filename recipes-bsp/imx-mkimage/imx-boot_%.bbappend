@@ -10,10 +10,6 @@ do_compile_append () {
             fi
         fi
     done
-    cd ${DEST}/..
-    oe_runmake imx-boot
-    cp ${DEST}/signed/u/flash.bin ${S}/${BOOT_CONFIG_MACHINE}-flash_evk
 }
 
-DEPENDS += "cst-keys"
 COMPATIBLE_MACHINE = "(ucm-imx8m-mini|mcm-imx8m-mini)"
