@@ -4,22 +4,14 @@ LIC_FILES_CHKSUM = ""
 SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https"
 
 PV = "1.0"
-SRCREV = "ec517a8b7617f90f8edcdac3bc86692bc91bf1cd"
+SRCREV = "89e2dec8b29bb5f35720b2636b833390e02b4d63"
 
 DEPENDS = "openssl-native u-boot-compulab linux-compulab"
 
 S = "${WORKDIR}/git"
-SOC = "imx7"
 
 do_configure () {
-    install -d ${DEPLOY_DIR_IMAGE}/cst-tools
-    tar -C ${DEPLOY_DIR_IMAGE}/cst-tools -xf ${S}/nxp/cst-3.3.0.tgz --strip-components=1
-
-    for d in Makefile hab tools;do
-        cp -a ${S}/${SOC}/${d} ${DEPLOY_DIR_IMAGE}/cst-tools/
-    done
-
-    cp -a ${DEPLOY_DIR_IMAGE}/cst-tools//keys/hab4_pki_tree.sh ${DEPLOY_DIR_IMAGE}/cst-tools/tools
+    SOC=imx7 DEST=${DEPLOY_DIR_IMAGE} SRC=${S} ${S}/bootstrap.sh
 }
 
 do_compile () {
