@@ -113,7 +113,7 @@ stat hab/signed/k/Image
 * imx-boot signing
 ```
 make imx-boot
-stat hab/signed/u/imx-boot-mcm-imx8m-mini-sd.bin-flash_evk
+stat hab/signed/u/flash.bin
 ```
 
 * fuse values generating
