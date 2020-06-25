@@ -24,6 +24,7 @@ do_compile () {
 do_deploy() {
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/zImage ${DEPLOY_DIR_IMAGE}/zImage.signed
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/u-boot.imx ${DEPLOY_DIR_IMAGE}/u-boot.imx.signed
+    cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${DEPLOY_DIR_IMAGE}/fuse.out
 }
 
 addtask deploy before do_install after do_compile
