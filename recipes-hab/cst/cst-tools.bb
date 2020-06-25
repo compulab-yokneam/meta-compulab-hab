@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = ""
 SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https"
 
 PV = "1.0"
-SRCREV = "imx8"
+SRCREV = "master"
 
 DEPENDS = "openssl-native imx-boot linux-imx"
 
