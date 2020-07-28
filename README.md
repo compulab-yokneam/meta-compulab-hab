@@ -1,6 +1,6 @@
 # meta-compulab-hab
 
-This is a meta-layer that allows using the [cst-tools](https://github.com/compulab-yokneam/cst-tools/tree/master/imx8) inside the Yocto.
+This meta-layer allows using the [cst-tools](https://github.com/compulab-yokneam/cst-tools/tree/master/imx8) inside Yocto.
 
 Supported machines:
 * ucm-imx8m-mini
