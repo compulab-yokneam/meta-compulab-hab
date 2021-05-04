@@ -1,3 +1,7 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI_append += "file://0099-iMX8M_soc_make.patch"
+
 DEST = "${DEPLOY_DIR_IMAGE}/cst-tools/hab"
 
 do_compile_append () {
