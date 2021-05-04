@@ -18,4 +18,4 @@ do_compile_append () {
     done
 }
 
-COMPATIBLE_MACHINE = "(ucm-imx8m-mini|mcm-imx8m-mini)"
+COMPATIBLE_MACHINE = "(ucm-imx8m-mini|mcm-imx8m-mini|iot-gate-imx8)"
