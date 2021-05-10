@@ -90,3 +90,6 @@ make
 | signed files only |make clean|
 | keys only |make clean_keys|
 | all files |make clean_all|
+
+### Fuse Programming
+* Fuse progrmming is demonstrated in NXP document [i.MX8M family Secure Boot guide using HABv4](https://source.codeaurora.org/external/imx/uboot-imx/tree/doc/imx/habv4/guides/mx8m_secure_boot.txt?h=imx_v2020.04_5.4.24_2.1.0).
