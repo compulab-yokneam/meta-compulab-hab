@@ -1,12 +1,12 @@
 LICENSE = "CLOSED"
 LIC_FILES_CHKSUM = ""
 
-SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https"
+SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https;branch=master"
 
 PV = "1.0"
-SRCREV = "master"
+SRCREV = "73f6d84cfbccb4e95d404967bddbfca73a7ad18a"
 
-DEPENDS = "openssl-native imx-boot linux-imx"
+DEPENDS = "openssl-native imx-boot linux-compulab"
 
 S = "${WORKDIR}/git"
 
@@ -50,7 +50,7 @@ do_install () {
 
 PROVIDES = "cst-tools"
 
-FILES_${PN} = " \
+FILES:${PN} = " \
     /boot/* \
     /opt/* \
 "
