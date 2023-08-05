@@ -1,0 +1,3 @@
+FILESEXTRAPATHS:prepend := "${THISDIR}/compulab/imx8m:"
+
+include compulab/imx8m.inc

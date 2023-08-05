@@ -1,1 +1,1 @@
-u-boot-imx_%.bbappend
+u-boot-compulab.main

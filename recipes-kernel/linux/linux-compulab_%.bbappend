@@ -1,1 +1,1 @@
-linux-imx_%.bbappend
+linux-compulab.main

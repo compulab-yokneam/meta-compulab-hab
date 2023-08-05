@@ -8,6 +8,5 @@ do_modify_config() {
 
 addtask modify_config after do_patch before do_configure
 
-SRC_URI:append:mcm-imx8m-mini = "${FILE_LIST_HAB}"
-SRC_URI:append:ucm-imx8m-mini = "${FILE_LIST_HAB}"
-SRC_URI:append:iot-gate-imx8 = "${FILE_LIST_HAB}"
+SRC_URI:append:compulab-mx8mm = "${FILE_LIST_HAB}"
+SRC_URI:append:compulab-mx8mp = "${FILE_LIST_HAB}"
