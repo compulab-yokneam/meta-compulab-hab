@@ -11,7 +11,7 @@ Supported machines:
 ## Add to the Yocto build
 * Clone the layer repository to the ${BUILDIR}/../sources
 ```
-git clone -b imx8 https://github.com/compulab-yokneam/meta-compulab-hab.git ../sources/meta-compulab-hab
+git clone -b imx8-kirkstone https://github.com/compulab-yokneam/meta-compulab-hab.git ../sources/meta-compulab-hab
 ```
 
 * Update `conf/bblayers.conf`
