@@ -14,12 +14,28 @@ do_configure () {
     SOC=imx8 DEST=${DEPLOY_DIR_IMAGE} SRC=${S} ${S}/bootstrap.sh
 }
 
-do_compile () {
+do_compile_fuse () {
     cd ${DEPLOY_DIR_IMAGE}/cst-tools
     oe_runmake fuse
+}
+
+do_compile_kernel () {
+    cd ${DEPLOY_DIR_IMAGE}/cst-tools
     oe_runmake kernel
+}
+
+do_compile_bootloader () {
+    cd ${DEPLOY_DIR_IMAGE}/cst-tools
     oe_runmake imx-boot
 }
+
+do_compile () {
+    do_compile_fuse
+    do_compile_kernel
+    do_compile_bootloader
+}
+do_compile[depends] += "imx-boot:do_compile_hab"
+do_compile[depends] += "linux-compulab:do_compile_hab"
 
 do_deploy() {
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${DEPLOY_DIR_IMAGE}/Image.signed
@@ -28,6 +44,13 @@ do_deploy() {
 }
 
 addtask deploy before do_install after do_compile
+
+do_cleanup() {
+    rm -rf ${DEPLOY_DIR_IMAGE}/cst-tools
+}
+addtask cleanup
+do_cleanup[nostamp] = "1"
+do_cleanall[depends] += "${PN}:do_cleanup"
 
 do_install () {
     install -d ${D}/boot/

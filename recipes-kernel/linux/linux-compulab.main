@@ -1,7 +1,9 @@
 DEST = "${DEPLOY_DIR_IMAGE}/cst-tools/hab"
 
-do_compile:append () {
+do_compile_hab () {
     install -d ${DEST}
     install -m 644 ${B}/arch/arm64/boot/Image ${DEST}/Image
-    echo DEST=${DEST}
 }
+addtask compile_hab
+do_compile_hab[nostamp] = "1"
+do_compile_hab[depends] = "linux-compulab:do_compile"
