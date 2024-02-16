@@ -67,12 +67,12 @@ do_cleanup[nostamp] = "1"
 do_cleanall[depends] += "${PN}:do_cleanup"
 
 do_install () {
-    install -d ${D}/boot/EFI/BOOT/
+    install -d ${D}/boot/efi/EFI/BOOT/
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${D}/boot/fuse.out
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/hab_auth_img.cmd ${D}/boot/hab_auth_img.cmd
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${D}/boot/Image.signed
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/flash.bin ${D}/boot/flash.bin.signed
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${D}/boot/EFI/BOOT/bootaa64.efi.signed
+    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${D}/boot/efi/EFI/BOOT/bootaa64.efi.signed
 
     for d in keys crts;do
         install -d ${D}/opt/cst/${d}/
