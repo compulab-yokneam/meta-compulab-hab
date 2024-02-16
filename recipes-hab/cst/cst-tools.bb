@@ -51,6 +51,12 @@ do_deploy() {
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${DEPLOY_DIR_IMAGE}/bootaa64.efi.signed
 }
 
+do_deploy:append() {
+    # Rename the signed binaries to their real name.
+    mv ${DEPLOY_DIR_IMAGE}/Image.signed ${DEPLOY_DIR_IMAGE}/Image
+    mv ${DEPLOY_DIR_IMAGE}/bootaa64.efi.signed ${DEPLOY_DIR_IMAGE}/bootaa64.efi
+}
+
 addtask deploy before do_install after do_compile
 
 do_cleanup() {
