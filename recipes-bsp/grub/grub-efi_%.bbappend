@@ -1,3 +1,8 @@
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+SRC_URI += " \
+	file://0001-arm64-Set-upper-limit-to-0x55ffffff.patch \
+"
+
 GRUB_IMAGE_DEFAULT ?= "bootaa64.efi"
 DEST = "${DEPLOY_DIR_IMAGE}/cst-tools/hab"
 
