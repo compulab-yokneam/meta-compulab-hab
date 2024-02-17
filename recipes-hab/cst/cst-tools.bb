@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = ""
 SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https;branch=master"
 
 PV = "1.1"
-SRCREV = "5f1c0583a81ccc35ac35fb5d971a2f9be64d9014"
+SRCREV = "5ca07b77018ad86067912f573b1dcfb476dc62f6"
 
 DEPENDS = "openssl-native imx-boot linux-compulab"
 
@@ -46,6 +46,7 @@ do_compile[depends] += "grub-efi:do_compile_hab"
 
 do_deploy() {
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${DEPLOY_DIR_IMAGE}/Image.signed
+    cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/kgrub/Image ${DEPLOY_DIR_IMAGE}/Image.kgrub.signed
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/flash.bin ${DEPLOY_DIR_IMAGE}/flash.bin.signed
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${DEPLOY_DIR_IMAGE}/fuse.out
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${DEPLOY_DIR_IMAGE}/bootaa64.efi.signed
@@ -71,6 +72,7 @@ do_install () {
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${D}/boot/fuse.out
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/hab_auth_img.cmd ${D}/boot/hab_auth_img.cmd
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${D}/boot/Image.signed
+    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/kgrub/Image ${D}/boot/Image.kgrub.signed
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/flash.bin ${D}/boot/flash.bin.signed
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${D}/boot/efi/EFI/BOOT/bootaa64.efi.signed
 

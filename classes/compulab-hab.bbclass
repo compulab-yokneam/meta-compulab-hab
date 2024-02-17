@@ -6,5 +6,5 @@ compulab_bootaa64_efi() {
 
 compulab_kernel_image() {
     unlink ${IMAGE_ROOTFS}/boot/Image
-    ln -sf Image.signed ${IMAGE_ROOTFS}/boot/Image
+    ln -sf Image.kgrub.signed ${IMAGE_ROOTFS}/boot/Image
 }
