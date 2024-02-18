@@ -21,7 +21,7 @@ do_compile_fuse () {
 
 do_compile_kernel () {
     cd ${DEPLOY_DIR_IMAGE}/cst-tools
-    oe_runmake kernel
+    oe_runmake -j 1 kernel
 }
 
 do_compile_bootloader () {
