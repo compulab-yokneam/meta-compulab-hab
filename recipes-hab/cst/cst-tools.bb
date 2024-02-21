@@ -60,6 +60,13 @@ do_deploy:append() {
 
 addtask deploy before do_install after do_compile
 
+do_cleanup_signed() {
+    rm -rf ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed
+}
+addtask cleanup_signed
+do_cleanup_signed[nostamp] = "1"
+do_clean[depends] += "${PN}:do_cleanup_signed"
+
 do_cleanup() {
     rm -rf ${DEPLOY_DIR_IMAGE}/cst-tools
 }
