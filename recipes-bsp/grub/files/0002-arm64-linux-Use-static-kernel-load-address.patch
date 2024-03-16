@@ -1,0 +1,68 @@
+From ab8d04769a0d10d6e7dff4551baadc119665e289 Mon Sep 17 00:00:00 2001
+From: Valentin Raevsky <valentin@compulab.co.il>
+Date: Fri, 15 Mar 2024 23:45:55 +0200
+Subject: [PATCH 2/2] arm64: linux: Use static kernel load address
+
+Signed-off-by: Valentin Raevsky <valentin@compulab.co.il>
+---
+ grub-core/loader/arm64/linux.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/grub-core/loader/arm64/linux.c b/grub-core/loader/arm64/linux.c
+index ef3e9f9..1080373 100644
+--- a/grub-core/loader/arm64/linux.c
++++ b/grub-core/loader/arm64/linux.c
+@@ -39,6 +39,8 @@ GRUB_MOD_LICENSE ("GPLv3+");
+ static grub_dl_t my_mod;
+ static int loaded;
+ 
++#define KLOAD_ADDR 0x58000000
++
+ static void *kernel_addr;
+ static grub_uint64_t kernel_size;
+ 
+@@ -187,9 +189,11 @@ grub_linux_unload (void)
+ 			 GRUB_EFI_BYTES_TO_PAGES (initrd_end - initrd_start));
+   initrd_start = initrd_end = 0;
+   grub_free (linux_args);
++#ifndef KLOAD_ADDR
+   if (kernel_addr)
+     grub_efi_free_pages ((grub_addr_t) kernel_addr,
+ 			 GRUB_EFI_BYTES_TO_PAGES (kernel_size));
++#endif
+   grub_fdt_unload ();
+   return GRUB_ERR_NONE;
+ }
+@@ -313,6 +317,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+   grub_loader_unset();
+ 
+   grub_dprintf ("linux", "kernel file size: %lld\n", (long long) kernel_size);
++#ifndef KLOAD_ADDR
+   kernel_addr = grub_efi_allocate_any_pages (GRUB_EFI_BYTES_TO_PAGES (kernel_size));
+   grub_dprintf ("linux", "kernel numpages: %lld\n",
+ 		(long long) GRUB_EFI_BYTES_TO_PAGES (kernel_size));
+@@ -322,6 +327,9 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+       goto fail;
+     }
+ 
++#else
++  kernel_addr = KLOAD_ADDR;
++#endif
+   grub_file_seek (file, 0);
+   if (grub_file_read (file, kernel_addr, kernel_size)
+       < (grub_int64_t) kernel_size)
+@@ -367,9 +375,11 @@ fail:
+   if (linux_args && !loaded)
+     grub_free (linux_args);
+ 
++#ifndef KLOAD_ADDR
+   if (kernel_addr && !loaded)
+     grub_efi_free_pages ((grub_addr_t) kernel_addr,
+ 			 GRUB_EFI_BYTES_TO_PAGES (kernel_size));
++#endif
+ 
+   return grub_errno;
+ }
+-- 
+2.34.1
+

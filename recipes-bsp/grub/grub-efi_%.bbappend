@@ -1,6 +1,7 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI += " \
 	file://0001-arm64-Set-upper-limit-to-0x55ffffff.patch \
+	file://0002-arm64-linux-Use-static-kernel-load-address.patch \
 "
 
 GRUB_IMAGE_DEFAULT ?= "bootaa64.efi"
