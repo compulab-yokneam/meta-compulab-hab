@@ -4,7 +4,7 @@ This meta-layer allows using the [cst-tools](https://github.com/compulab-yokneam
 
 Supported machines:
 * imx8mm: ucm-imx8m-mini, mcm-imx8m-mini, iot-gate-imx8
-* imx8mp: ucm-imx8m-plus, som-imx8m-plus, iot-gate-imx8plus
+* imx8mp: ucm-imx8m-plus, som-imx8m-plus, iot-gate-imx8plus, iotdin-imx8p
 
 # How to use
 
