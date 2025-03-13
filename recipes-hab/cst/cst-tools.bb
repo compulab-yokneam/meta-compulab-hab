@@ -81,6 +81,7 @@ do_install () {
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${D}/boot/Image.signed
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/kgrub/Image ${D}/boot/Image.kgrub.signed
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/flash.bin ${D}/boot/flash.bin.signed
+    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/bootaa64.efi ${D}/boot/EFI/BOOT/bootaa64.efi
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${D}/boot/EFI/BOOT/bootaa64.efi.signed
 
     for d in keys crts;do
