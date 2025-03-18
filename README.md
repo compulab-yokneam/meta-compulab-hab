@@ -11,7 +11,7 @@ Supported machines:
 ## Add to the Yocto build
 * Clone the layer repository to the ${BUILDIR}/../sources
 ```
-git clone -b imx8-kirkstone https://github.com/compulab-yokneam/meta-compulab-hab.git ../sources/meta-compulab-hab
+git clone -b imx8-scarthgap https://github.com/compulab-yokneam/meta-compulab-hab.git ../sources/meta-compulab-hab
 ```
 
 * Update `conf/bblayers.conf`
@@ -91,4 +91,4 @@ make
 | all files |make clean_all|
 
 ### Fuse Programming
-* Fuse progrmming is demonstrated in NXP document [i.MX8M family Secure Boot guide using HABv4](https://github.com/nxp-imx/uboot-imx/blob/lf_v2022.04/doc/imx/habv4/guides/mx8m_secure_boot.txt).
+* Fuse progrmming is demonstrated in NXP document [i.MX8M family Secure Boot guide using HABv4](https://github.com/nxp-imx/uboot-imx/blob/lf_v2023.04/doc/imx/habv4/guides/mx8m_secure_boot.txt).

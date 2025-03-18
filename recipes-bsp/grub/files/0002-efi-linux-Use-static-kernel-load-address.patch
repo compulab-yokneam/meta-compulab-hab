@@ -1,27 +1,29 @@
-From ab8d04769a0d10d6e7dff4551baadc119665e289 Mon Sep 17 00:00:00 2001
+From f1c8af2d29a57e61281664cdf6b97a9c542920fd Mon Sep 17 00:00:00 2001
 From: Valentin Raevsky <valentin@compulab.co.il>
-Date: Fri, 15 Mar 2024 23:45:55 +0200
-Subject: [PATCH 2/2] arm64: linux: Use static kernel load address
+Date: Tue, 18 Mar 2025 14:31:53 +0200
+Subject: [PATCH] efi: linux: Use static kernel load address
+
+Upstream-Status: Inappropriate [OE specific]
 
 Signed-off-by: Valentin Raevsky <valentin@compulab.co.il>
 ---
- grub-core/loader/arm64/linux.c | 10 ++++++++++
+ grub-core/loader/efi/linux.c | 10 ++++++++++
  1 file changed, 10 insertions(+)
 
-diff --git a/grub-core/loader/arm64/linux.c b/grub-core/loader/arm64/linux.c
-index ef3e9f9..1080373 100644
---- a/grub-core/loader/arm64/linux.c
-+++ b/grub-core/loader/arm64/linux.c
-@@ -39,6 +39,8 @@ GRUB_MOD_LICENSE ("GPLv3+");
- static grub_dl_t my_mod;
- static int loaded;
+diff --git a/grub-core/loader/efi/linux.c b/grub-core/loader/efi/linux.c
+index bfbd95a..9c99606 100644
+--- a/grub-core/loader/efi/linux.c
++++ b/grub-core/loader/efi/linux.c
+@@ -36,6 +36,8 @@
+ 
+ GRUB_MOD_LICENSE ("GPLv3+");
  
 +#define KLOAD_ADDR 0x58000000
 +
- static void *kernel_addr;
- static grub_uint64_t kernel_size;
+ static grub_dl_t my_mod;
+ static int loaded;
  
-@@ -187,9 +189,11 @@ grub_linux_unload (void)
+@@ -271,9 +273,11 @@ grub_linux_unload (void)
  			 GRUB_EFI_BYTES_TO_PAGES (initrd_end - initrd_start));
    initrd_start = initrd_end = 0;
    grub_free (linux_args);
@@ -30,10 +32,10 @@ index ef3e9f9..1080373 100644
      grub_efi_free_pages ((grub_addr_t) kernel_addr,
  			 GRUB_EFI_BYTES_TO_PAGES (kernel_size));
 +#endif
+ #if !defined(__i386__) && !defined(__x86_64__)
    grub_fdt_unload ();
-   return GRUB_ERR_NONE;
- }
-@@ -313,6 +317,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+ #endif
+@@ -513,6 +517,7 @@ fallback:
    grub_loader_unset();
  
    grub_dprintf ("linux", "kernel file size: %lld\n", (long long) kernel_size);
@@ -41,7 +43,7 @@ index ef3e9f9..1080373 100644
    kernel_addr = grub_efi_allocate_any_pages (GRUB_EFI_BYTES_TO_PAGES (kernel_size));
    grub_dprintf ("linux", "kernel numpages: %lld\n",
  		(long long) GRUB_EFI_BYTES_TO_PAGES (kernel_size));
-@@ -322,6 +327,9 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+@@ -522,6 +527,9 @@ fallback:
        goto fail;
      }
  
@@ -51,7 +53,7 @@ index ef3e9f9..1080373 100644
    grub_file_seek (file, 0);
    if (grub_file_read (file, kernel_addr, kernel_size)
        < (grub_int64_t) kernel_size)
-@@ -367,9 +375,11 @@ fail:
+@@ -567,9 +575,11 @@ fail:
    if (linux_args && !loaded)
      grub_free (linux_args);
  

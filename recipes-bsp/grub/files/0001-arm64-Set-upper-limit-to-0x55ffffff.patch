@@ -3,6 +3,8 @@ From: Valentin Raevsky <valentin@compulab.co.il>
 Date: Sat, 17 Feb 2024 23:13:49 +0200
 Subject: [PATCH 1/1] arm64: Set upper limit to 0x55ffffff
 
+Upstream-Status: Inappropriate [OE specific]
+
 Signed-off-by: Valentin Raevsky <valentin@compulab.co.il>
 ---
  include/grub/arm64/efi/memory.h | 2 +-
