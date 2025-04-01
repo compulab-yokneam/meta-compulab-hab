@@ -1,12 +1,12 @@
 LICENSE = "CLOSED"
 LIC_FILES_CHKSUM = ""
 
-SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https;branch=master"
+SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https;branch=cst-4.0.0"
 
-PV = "1.2"
+PV = "1.3"
 SRCREV = "${AUTOREV}"
 
-DEPENDS = "openssl-native imx-boot linux-compulab"
+DEPENDS = "openssl-native imx-boot linux-compulab dtc-native"
 
 S = "${WORKDIR}/git"
 
@@ -40,7 +40,7 @@ do_compile () {
     do_compile_bootloader
     do_compile_uefi
 }
-do_compile[depends] += "imx-boot:do_compile_hab"
+do_compile[depends] += "u-boot:do_compile_hab"
 do_compile[depends] += "linux-compulab:do_compile_hab"
 do_compile[depends] += "grub-efi:do_compile_hab"
 
