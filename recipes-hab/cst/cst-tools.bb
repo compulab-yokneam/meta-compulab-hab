@@ -40,7 +40,8 @@ do_compile () {
     do_compile_bootloader
     do_compile_uefi
 }
-do_compile[depends] += "u-boot:do_compile_hab"
+do_compile[depends] += "imx-boot:do_compile_hab"
+#do_compile[depends] += "u-boot:do_compile_hab"
 do_compile[depends] += "linux-compulab:do_compile_hab"
 do_compile[depends] += "grub-efi:do_compile_hab"
 

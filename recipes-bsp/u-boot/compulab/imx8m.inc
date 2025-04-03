@@ -8,9 +8,9 @@ SRC_URI:append:compulab-mx8mp = "${FILE_LIST_HAB}"
 DEST = "${DEPLOY_DIR_IMAGE}/cst-tools/hab"
 
 do_compile_hab () {
-        install -d ${DEST}
-        for item in .config u-boot.itb u-boot.dtb flash.bin u-boot-spl-ddr.bin;do
-            cp ${B}/${MACHINE}_defconfig/${item} ${DEST}/
+        install -d ${DEST}/binman
+	for item in .config u-boot.itb u-boot.dtb flash.bin u-boot-spl-ddr.bin;do
+            cp ${B}/${MACHINE}_defconfig/${item} ${DEST}/binman
         done
 }
 addtask compile_hab
