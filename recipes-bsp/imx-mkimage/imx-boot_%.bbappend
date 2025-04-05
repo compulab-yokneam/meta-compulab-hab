@@ -12,7 +12,7 @@ do_compile_hab () {
         if [ ${target} = "flash_evk" ]; then
             cp ${S}/${SOC_DIR}/${UBOOT_DTB_NAME} ${S}/${SOC_DIR}/u-boot.dtb
             if [ -e "${S}/${SOC_DIR}/flash.bin" ]; then
-		for item in u-boot.itb u-boot.dtb flash.bin u-boot-spl-ddr.bin;do
+		for item in u-boot.bin u-boot.itb u-boot.its u-boot-nodtb.bin u-boot-spl.bin u-boot-spl-ddr.bin tee.bin bl31.bin flash.bin print_fit_hab.sh;do
                     cp ${S}/${SOC_DIR}/${item} ${DEST}
 		done
             fi
