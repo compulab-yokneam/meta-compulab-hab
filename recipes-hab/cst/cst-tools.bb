@@ -1,9 +1,9 @@
 LICENSE = "CLOSED"
 LIC_FILES_CHKSUM = ""
 
-SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https;branch=cst-4.0.0"
+SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https;branch=cst-4.0.0-devel"
 
-PV = "1.3"
+PV = "1.4"
 SRCREV = "${AUTOREV}"
 
 DEPENDS = "openssl-native imx-boot linux-compulab dtc-native"
@@ -34,29 +34,36 @@ do_compile_uefi () {
     oe_runmake uefi
 }
 
+do_compile_init () {
+    cd ${DEPLOY_DIR_IMAGE}/cst-tools
+    oe_runmake clean
+}
+
 do_compile () {
+    do_compile_init
     do_compile_fuse
     do_compile_kernel
     do_compile_bootloader
     do_compile_uefi
 }
 do_compile[depends] += "imx-boot:do_compile_hab"
-#do_compile[depends] += "u-boot:do_compile_hab"
+do_compile[depends] += "u-boot:do_compile_hab"
 do_compile[depends] += "linux-compulab:do_compile_hab"
 do_compile[depends] += "grub-efi:do_compile_hab"
 
 do_deploy() {
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${DEPLOY_DIR_IMAGE}/Image.signed
-    cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/kgrub/Image ${DEPLOY_DIR_IMAGE}/Image.kgrub.signed
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/flash.bin ${DEPLOY_DIR_IMAGE}/flash.bin.signed
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${DEPLOY_DIR_IMAGE}/fuse.out
-    cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${DEPLOY_DIR_IMAGE}/bootaa64.efi.signed
 }
 
 do_deploy:append() {
     # Rename the signed binaries to their real name.
     mv ${DEPLOY_DIR_IMAGE}/Image.signed ${DEPLOY_DIR_IMAGE}/Image
-    mv ${DEPLOY_DIR_IMAGE}/bootaa64.efi.signed ${DEPLOY_DIR_IMAGE}/bootaa64.efi
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'compulab-uefi', 'true', 'false', d)};then
+        cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${DEPLOY_DIR_IMAGE}/bootaa64.efi.signed
+        mv ${DEPLOY_DIR_IMAGE}/bootaa64.efi.signed ${DEPLOY_DIR_IMAGE}/bootaa64.efi
+    fi
 }
 
 addtask deploy before do_install after do_compile
@@ -75,14 +82,19 @@ addtask cleanup
 do_cleanup[nostamp] = "1"
 do_cleanall[depends] += "${PN}:do_cleanup"
 
+do_install:append () {
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'compulab-uefi', 'true', 'false', d)};then
+        install -d ${D}/boot/EFI/BOOT/
+        install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${D}/boot/EFI/BOOT/bootaa64.efi.signed
+    fi
+}
+
 do_install () {
-    install -d ${D}/boot/EFI/BOOT/
+    install -d ${D}/boot/
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${D}/boot/fuse.out
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/hab_auth_img.cmd ${D}/boot/hab_auth_img.cmd
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${D}/boot/Image.signed
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/kgrub/Image ${D}/boot/Image.kgrub.signed
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/flash.bin ${D}/boot/flash.bin.signed
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${D}/boot/EFI/BOOT/bootaa64.efi.signed
 
     for d in keys crts;do
         install -d ${D}/opt/cst/${d}/
