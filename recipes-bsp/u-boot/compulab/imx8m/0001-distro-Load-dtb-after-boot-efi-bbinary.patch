@@ -1,0 +1,43 @@
+From e1e5714b32c4f6871846011769b811156ea189ad Mon Sep 17 00:00:00 2001
+From: Valentin Raevsky <valentin@compulab.co.il>
+Date: Mon, 7 Apr 2025 13:25:19 +0300
+Subject: [PATCH 1/1] distro: Load dtb after boot efi bbinary
+
+Signed-off-by: Valentin Raevsky <valentin@compulab.co.il>
+---
+ include/config_distro_bootcmd.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
+index 9d2a225e7eb..45288cea9ad 100644
+--- a/include/config_distro_bootcmd.h
++++ b/include/config_distro_bootcmd.h
+@@ -148,6 +148,7 @@
+ 	"boot_efi_binary="                                                \
+ 		"load ${devtype} ${devnum}:${distro_bootpart} "           \
+ 			"${kernel_addr_r} efi/boot/"BOOTEFI_NAME"; "      \
++		"run load_efi_dtb; "                      \
+ 		"if fdt addr -q ${fdt_addr_r}; then "                     \
+ 			"bootefi ${kernel_addr_r} ${fdt_addr_r};"         \
+ 		"else "                                                   \
+@@ -156,7 +157,7 @@
+ 	\
+ 	"load_efi_dtb="                                                   \
+ 		"load ${devtype} ${devnum}:${distro_bootpart} "           \
+-			"${fdt_addr_r} ${prefix}${efi_fdtfile}\0"         \
++			"${fdt_addr_r} ${fdtfile}\0"         	  \
+ 	\
+ 	"efi_dtb_prefixes=/ /dtb/ /dtb/current/\0"                        \
+ 	"scan_dev_for_efi="                                               \
+@@ -167,7 +168,7 @@
+ 			"if test -e ${devtype} "                          \
+ 					"${devnum}:${distro_bootpart} "   \
+ 					"${prefix}${efi_fdtfile}; then "  \
+-				"run load_efi_dtb; "                      \
++				"echo load_efi_dtb; "                     \
+ 				BOOTENV_RUN_EXTENSION_APPLY               \
+ 			"fi;"                                             \
+ 		"done;"                                                   \
+-- 
+2.34.1
+
