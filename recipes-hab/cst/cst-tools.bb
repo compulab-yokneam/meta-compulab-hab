@@ -58,11 +58,8 @@ do_deploy() {
 }
 
 do_deploy:append() {
-    # Rename the signed binaries to their real name.
-    mv ${DEPLOY_DIR_IMAGE}/Image.signed ${DEPLOY_DIR_IMAGE}/Image
     if ${@bb.utils.contains('DISTRO_FEATURES', 'compulab-uefi', 'true', 'false', d)};then
         cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${DEPLOY_DIR_IMAGE}/bootaa64.efi.signed
-        mv ${DEPLOY_DIR_IMAGE}/bootaa64.efi.signed ${DEPLOY_DIR_IMAGE}/bootaa64.efi
     fi
 }
 
@@ -82,19 +79,19 @@ addtask cleanup
 do_cleanup[nostamp] = "1"
 do_cleanall[depends] += "${PN}:do_cleanup"
 
-do_install:append () {
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'compulab-uefi', 'true', 'false', d)};then
-        install -d ${D}/boot/EFI/BOOT/
-        install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${D}/boot/EFI/BOOT/bootaa64.efi.signed
-    fi
-}
-
 do_install () {
     install -d ${D}/boot/
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${D}/boot/fuse.out
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/hab_auth_img.cmd ${D}/boot/hab_auth_img.cmd
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${D}/boot/Image.signed
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/flash.bin ${D}/boot/flash.bin.signed
+    for ff in f/fuse.out k/hab_auth_img.cmd u/flash.bin;do
+            f=$(basename ${ff})
+            install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/${ff} ${D}/boot/${f}
+    done
+    mv ${D}/boot/flash.bin ${D}/boot/flash.bin.signed
+
+    install -d ${D}/opt/cst/boot/
+    for ff in k/Image uefi/bootaa64.efi;do
+            f=$(basename ${ff})
+            install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/${ff} ${D}/opt/cst/boot/${f}
+    done
 
     for d in keys crts;do
         install -d ${D}/opt/cst/${d}/
