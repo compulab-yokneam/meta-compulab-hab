@@ -1,6 +1,6 @@
 # meta-compulab-hab
 
-This meta-layer allows using the [cst-tools](https://github.com/compulab-yokneam/cst-tools/tree/master/imx8) inside Yocto.
+This meta-layer allows using the [cst-tools](https://github.com/compulab-yokneam/cst-tools/tree/cst-4.0.0-devel/imx8) inside Yocto.
 
 Supported machines:
 * imx8mm: ucm-imx8m-mini, mcm-imx8m-mini, iot-gate-imx8
@@ -11,7 +11,7 @@ Supported machines:
 ## Add to the Yocto build
 * Clone the layer repository to the ${BUILDIR}/../sources
 ```
-git clone -b imx8-scarthgap https://github.com/compulab-yokneam/meta-compulab-hab.git ../sources/meta-compulab-hab
+git clone -b imx8-scarthgap-devel https://github.com/compulab-yokneam/meta-compulab-hab.git ../sources/meta-compulab-hab
 ```
 
 * Update `conf/bblayers.conf`
