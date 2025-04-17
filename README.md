@@ -88,3 +88,6 @@ make
 | signed files only |make clean|
 | keys only |make clean_keys|
 | all files |make clean_all|
+
+### Fuse Programming
+* Fuse progrmming is in NXP document [i.MX6, i.MX7 U-Boot Secure Boot guide using HABv4](https://github.com/nxp-imx/uboot-imx/blob/lf_v2023.04/doc/imx/habv4/guides/mx6_mx7_secure_boot.txt).
