@@ -1,0 +1,79 @@
+From 18ee7a6c124cf76e1c8d255658dd84f10e399b9b Mon Sep 17 00:00:00 2001
+From: Valentin Raevsky <valentin@compulab.co.il>
+Date: Fri, 1 Aug 2025 08:11:12 +0300
+Subject: [PATCH 2/2] Fix: ofnode_by_compatible() link issue
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Skip all ofnode_by_compatible() calls by an unused config.
+
+Fixes the “drivers/crypto/fsl/jr.c:811: undefined reference to
+`ofnode_by_compatible'” at SPL linking.
+
+Signed-off-by: Valentin Raevsky <valentin@compulab.co.il>
+---
+ drivers/crypto/fsl/jr.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/crypto/fsl/jr.c b/drivers/crypto/fsl/jr.c
+index 97961e041e..0303cc89ff 100644
+--- a/drivers/crypto/fsl/jr.c
++++ b/drivers/crypto/fsl/jr.c
+@@ -122,7 +122,7 @@ static void jr_initregs(uint8_t sec_idx, struct caam_regs *caam)
+ static int jr_init(uint8_t sec_idx, struct caam_regs *caam)
+ {
+ 	struct jobring *jr = &caam->jr[sec_idx];
+-#if CONFIG_IS_ENABLED(OF_CONTROL)
++#if CONFIG_IS_ENABLED(OF_CONTROL_SAMPLE)
+ 	ofnode scu_node = ofnode_by_compatible(ofnode_null(), "fsl,imx8-mu");
+ #endif
+ 	memset(jr, 0, sizeof(struct jobring));
+@@ -149,7 +149,7 @@ static int jr_init(uint8_t sec_idx, struct caam_regs *caam)
+ 	memset(jr->input_ring, 0, JR_SIZE * sizeof(caam_dma_addr_t));
+ 	memset(jr->output_ring, 0, jr->op_size);
+ 
+-#if CONFIG_IS_ENABLED(OF_CONTROL)
++#if CONFIG_IS_ENABLED(OF_CONTROL_SAMPLE)
+ 	if (!ofnode_valid(scu_node))
+ #endif
+ 	start_jr(caam);
+@@ -807,7 +807,7 @@ int sec_init_idx(uint8_t sec_idx)
+ 	caam_st.jrid = JR_ID;
+ 	caam = &caam_st;
+ #endif
+-#if CONFIG_IS_ENABLED(OF_CONTROL)
++#if CONFIG_IS_ENABLED(OF_CONTROL_SAMPLE)
+ 	ofnode scu_node = ofnode_by_compatible(ofnode_null(), "fsl,imx8-mu");
+ 
+ 	if (ofnode_valid(scu_node))
+@@ -879,7 +879,7 @@ int sec_init_idx(uint8_t sec_idx)
+ 	liodn_s = (liodnr & JRSLIODN_MASK) >> JRSLIODN_SHIFT;
+ #endif
+ #endif
+-#if CONFIG_IS_ENABLED(OF_CONTROL)
++#if CONFIG_IS_ENABLED(OF_CONTROL_SAMPLE)
+ init:
+ #endif
+ 	ret = jr_init(sec_idx, caam);
+@@ -887,7 +887,7 @@ init:
+ 		printf("SEC%u:  initialization failed\n", sec_idx);
+ 		return -1;
+ 	}
+-#if CONFIG_IS_ENABLED(OF_CONTROL)
++#if CONFIG_IS_ENABLED(OF_CONTROL_SAMPLE)
+ 	if (ofnode_valid(scu_node)) {
+ 		if (CONFIG_IS_ENABLED(DM_RNG)) {
+ 			ret = device_bind_driver(NULL, "caam-rng", "caam-rng", NULL);
+@@ -917,7 +917,7 @@ init:
+ 
+ 		printf("SEC%u:  RNG instantiated\n", sec_idx);
+ 	}
+-#if CONFIG_IS_ENABLED(OF_CONTROL)
++#if CONFIG_IS_ENABLED(OF_CONTROL_SAMPLE)
+ 	if (CONFIG_IS_ENABLED(DM_RNG)) {
+ 		ret = device_bind_driver(NULL, "caam-rng", "caam-rng", NULL);
+ 		if (ret)
+-- 
+2.34.1
+

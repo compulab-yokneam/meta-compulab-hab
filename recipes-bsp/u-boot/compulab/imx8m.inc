@@ -1,9 +1,7 @@
 SRC_URI:append = " \
     file://security.cfg \
-"
-
-SRC_URI:append:compulab-mx8mp = " \
-    file://0001-distro-Load-dtb-after-boot-efi-bbinary.patch \
+    file://0001-imxx8mm-spl-Issue-sec_init.patch \
+    file://0002-Fix-ofnode_by_compatible-link-issue.patch \
 "
 
 DEST = "${DEPLOY_DIR_IMAGE}/cst-tools/hab"
