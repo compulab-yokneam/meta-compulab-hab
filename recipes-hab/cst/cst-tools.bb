@@ -93,16 +93,21 @@ do_install () {
             install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/${ff} ${D}/opt/cst/boot/${f}
     done
 
-    for d in keys crts;do
-        install -d ${D}/opt/cst/${d}/
-        for ff in ${DEPLOY_DIR_IMAGE}/cst-tools/${d}/*;do
-            f=$(basename ${ff})
-            install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/${d}/${f} ${D}/opt/cst/${d}/${f}
-        done
-        for ext in h bat exe sh old attr txt;do
-            rm -rf ${D}/opt/cst/${d}/*.${ext}
-        done
-    done
+    fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/keys ${D}/opt/cst/
+    fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/crts ${D}/opt/cst/
+    fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/tools ${D}/opt/cst/
+    fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/hab ${D}/opt/cst/
+
+
+    cd ${D}/opt/cst/keys
+    rm -rf $(find | awk '/\.h|\.bat|\.exe|\.old|\.attr/')
+    cd -
+
+    cd ${D}/opt/cst/hab
+    rm -rf $(ls | awk '/signed|bl31.bin|tee.bin|u-boot/')
+    cd -
+
+    fakeroot install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/Makefile ${D}/opt/cst/Makefile
 }
 
 PROVIDES = "cst-tools"
@@ -113,3 +118,4 @@ FILES:${PN} = " \
 "
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
+RDEPENDS:${PN} += "bash imx-cst binutils"
