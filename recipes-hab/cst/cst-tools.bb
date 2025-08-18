@@ -1,5 +1,12 @@
-LICENSE = "CLOSED"
-LIC_FILES_CHKSUM = ""
+LICENSE = "BSD-3-Clause & LGPL-2.1-only"
+LIC_FILES_CHKSUM = "file://licenses/LICENSE.bsd3;md5=1ef4297097d818a9787ed775218c133f \
+                    file://licenses/LICENSE.hidapi;md5=7c3949a631240cb6c31c50f3eb696077 \
+                    file://licenses/LICENSE.json-c;md5=de54b60fbbc35123ba193fea8ee216f2 \
+                    file://licenses/LICENSE.liboqs;md5=4b93ef2da47496727a4e8a59f443844e \
+                    file://licenses/LICENSE.libp11;md5=fad9b3332be894bab9bc501572864b29 \
+                    file://licenses/LICENSE.libusb;md5=fbc093901857fcd118f065f900982c24 \
+                    file://licenses/LICENSE.openssl;md5=3441526b1df5cc01d812c7dfc218cea6 \
+                    file://licenses/LICENSE.oqsprovider;md5=ab9b4308908ace39992d3080dd26824a"
 
 SRC_URI = "git://github.com/compulab-yokneam/cst-tools.git;protocol=https;branch=cst-4.0.0"
 
