@@ -125,4 +125,4 @@ FILES:${PN} = " \
 "
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-RDEPENDS:${PN} += "bash imx-cst binutils"
+RDEPENDS:${PN} += "bash imx-code-signing-tool binutils"
