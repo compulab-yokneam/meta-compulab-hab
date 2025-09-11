@@ -62,6 +62,7 @@ do_deploy() {
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${DEPLOY_DIR_IMAGE}/Image.signed
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/flash.bin ${DEPLOY_DIR_IMAGE}/flash.bin.signed
     cp ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${DEPLOY_DIR_IMAGE}/fuse.out
+    cp -a  ${S}/imx8/shell ${DEPLOY_DIR_IMAGE}/cst-tools/
 }
 
 do_deploy:append() {
@@ -100,11 +101,12 @@ do_install () {
             install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/${ff} ${D}/opt/cst/boot/${f}
     done
 
+    fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/ca ${D}/opt/cst/
     fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/keys ${D}/opt/cst/
     fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/crts ${D}/opt/cst/
     fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/tools ${D}/opt/cst/
     fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/hab ${D}/opt/cst/
-
+    fakeroot cp -a ${DEPLOY_DIR_IMAGE}/cst-tools/shell ${D}/opt/cst/
 
     cd ${D}/opt/cst/keys
     rm -rf $(find | awk '/\.h|\.bat|\.exe|\.old|\.attr/')
@@ -125,4 +127,4 @@ FILES:${PN} = " \
 "
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-RDEPENDS:${PN} += "bash imx-code-signing-tool binutils"
+RDEPENDS:${PN} += "bash imx-code-signing-tool binutils cl-uboot"
