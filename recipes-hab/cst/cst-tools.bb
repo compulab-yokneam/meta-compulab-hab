@@ -41,12 +41,20 @@ do_compile_uefi () {
     oe_runmake uefi
 }
 
+do_compile_conf_init () {
+    cd ${DEPLOY_DIR_IMAGE}/cst-tools/hab
+    oe_runmake __flash.bin_0riginal__
+    oe_runmake flash.bin-with_conf
+}
+
 do_compile_init () {
     cd ${DEPLOY_DIR_IMAGE}/cst-tools
     oe_runmake clean
+    oe_runmake prebuild
 }
 
 do_compile () {
+    do_compile_conf_init
     do_compile_init
     do_compile_fuse
     do_compile_kernel
