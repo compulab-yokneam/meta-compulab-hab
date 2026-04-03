@@ -83,13 +83,14 @@ do_cleanup[nostamp] = "1"
 do_cleanall[depends] += "${PN}:do_cleanup"
 
 do_install () {
-    install -d ${D}/boot/EFI/BOOT/
+    install -d ${D}/boot
+    install -d ${D}${EFI_PREFIX}/EFI/BOOT
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/f/fuse.out ${D}/boot/fuse.out
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/hab_auth_img.cmd ${D}/boot/hab_auth_img.cmd
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/k/Image ${D}/boot/Image.signed
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/kgrub/Image ${D}/boot/Image.kgrub.signed
     install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/u/flash.bin ${D}/boot/flash.bin.signed
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${D}/boot/EFI/BOOT/bootaa64.efi.signed
+    install -m 0644 ${DEPLOY_DIR_IMAGE}/cst-tools/hab/signed/uefi/bootaa64.efi ${D}${EFI_PREFIX}/EFI/BOOT/bootaa64.efi.signed
 
     for d in keys crts;do
         install -d ${D}/opt/cst/${d}/
@@ -107,6 +108,7 @@ PROVIDES = "cst-tools"
 
 FILES:${PN} = " \
     /boot/* \
+    ${EFI_PREFIX}/* \
     /opt/* \
 "
 
